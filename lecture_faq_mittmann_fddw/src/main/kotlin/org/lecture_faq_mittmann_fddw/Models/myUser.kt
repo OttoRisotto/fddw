@@ -5,15 +5,14 @@ import jakarta.persistence.Id
 import java.util.UUID
 
 @Entity
-class User(){
+class myUser(){
     @Id
     val id: UUID = UUID.randomUUID()
-    var email= ""
-    var firstName = ""
-    var lastName = ""
-    
+    var firstName: String = ""
+    var lastName: String = ""
+    var email: String = ""
+
     override fun toString(): String{
         return "$firstName $lastName($email, $id)"
     }
-
 }
