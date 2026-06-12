@@ -2,3 +2,5 @@ services:
   faq_serv:
     build:
       dockerfile: ./Dockerfile
+    volumes:
+      - user_volume:/home/usersDB

@@ -1,5 +1,7 @@
 volumes:
-  user_vol:
+  user_volume:
+
 include:
   - lecture_faq_mittmann_fddw/docker-compose.yml
   - caddy/docker-compose.yml
+  - PostGres/docker-compose.yml
