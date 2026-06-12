@@ -2,3 +2,4 @@ volumes:
   user_vol:
 include:
   - lecture_faq_mittmann_fddw/docker-compose.yml
+  - caddy/docker-compose.yml

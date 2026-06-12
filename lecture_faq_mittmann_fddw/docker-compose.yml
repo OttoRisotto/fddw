@@ -2,5 +2,3 @@ services:
   faq_serv:
     build:
       dockerfile: ./Dockerfile
-    ports:
-      - "8080:8080"

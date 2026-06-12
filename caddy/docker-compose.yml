@@ -1,0 +1,5 @@
+services:
+  caddy:
+    build: .
+    ports:
+      - 9001:80
