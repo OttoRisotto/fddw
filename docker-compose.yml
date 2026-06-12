@@ -1,4 +1,4 @@
 volumes:
   user_vol:
 include:
-  - /lecture_faq_mittmann_fddw/faq.docker-compose.yml
+  - lecture_faq_mittmann_fddw/docker-compose.yml
