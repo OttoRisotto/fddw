@@ -1,7 +1,7 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
 import org.lecture_faq_mittmann_fddw.Models.Role
-import org.lecture_faq_mittmann_fddw.Models.myUser
+import org.lecture_faq_mittmann_fddw.Models.MyUser
 import org.lecture_faq_mittmann_fddw.Services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -32,7 +32,7 @@ class UserController(private val srv: UserService) {
         @RequestParam lastName: String?,
         @RequestParam role: Role?
     ): String{
-        val users: List<myUser> = srv.getUsers(firstName, lastName, role)
+        val users: List<MyUser> = srv.getUsers(firstName, lastName, role)
         return "Users: \n${users.joinToString(",\n")}"
     }
 

@@ -5,10 +5,9 @@ import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import java.util.UUID
-import org.lecture_faq_mittmann_fddw.Models.Role
 
 @Entity
-class myUser(){
+class MyUser(){
     @Id
     val id: UUID = UUID.randomUUID()
     var firstName: String = ""

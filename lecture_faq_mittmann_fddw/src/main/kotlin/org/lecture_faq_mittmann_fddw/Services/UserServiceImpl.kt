@@ -1,7 +1,7 @@
 package org.lecture_faq_mittmann_fddw.Services
 
 import org.lecture_faq_mittmann_fddw.Models.Role
-import org.lecture_faq_mittmann_fddw.Models.myUser
+import org.lecture_faq_mittmann_fddw.Models.MyUser
 import org.lecture_faq_mittmann_fddw.Repository.UserRepo
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PathVariable
@@ -10,7 +10,7 @@ import java.util.UUID
 @Service
 class UserServiceImpl(private val repo: UserRepo): UserService {
 
-    override fun getUser(id: UUID): myUser{
+    override fun getUser(id: UUID): MyUser{
         return repo.getUserById(id)
     }
 
@@ -18,12 +18,12 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
         firstName: String?,
         lastName: String?,
         role: Role?
-    ): List<myUser> {
+    ): List<MyUser> {
         return repo.getUsers(firstName, lastName, role)
     }
 
     override fun addUser(firstName: String, lastName: String, email: String, role: Role) {
-        val user = myUser()
+        val user = MyUser()
         user.firstName = firstName
         user.lastName = lastName
         user.email = email
@@ -45,6 +45,6 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
     }
 
     override fun deleteUser(@PathVariable id: UUID) {
-        repo.deleteUserById(id)
+        repo.deleteMyUserById(id)
     }
 }
