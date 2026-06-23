@@ -45,6 +45,6 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
     }
 
     override fun deleteUser(@PathVariable id: UUID) {
-        repo.deleteMyUserById(id)
+        repo.delete(getUser(id))
     }
 }
