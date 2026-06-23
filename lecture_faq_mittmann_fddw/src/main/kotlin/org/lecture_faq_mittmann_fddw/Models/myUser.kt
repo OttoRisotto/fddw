@@ -1,8 +1,11 @@
 package org.lecture_faq_mittmann_fddw.Models
 
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import java.util.UUID
+import org.lecture_faq_mittmann_fddw.Models.Role
 
 @Entity
 class myUser(){
@@ -12,7 +15,10 @@ class myUser(){
     var lastName: String = ""
     var email: String = ""
 
+    @Enumerated(EnumType.STRING)
+    var role: Role = Role.Student
+
     override fun toString(): String{
-        return "$firstName $lastName($email, $id)"
+        return "$firstName $lastName($role, $email, $id)"
     }
 }

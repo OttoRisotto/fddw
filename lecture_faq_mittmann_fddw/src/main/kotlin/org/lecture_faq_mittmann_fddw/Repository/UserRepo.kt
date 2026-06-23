@@ -1,5 +1,6 @@
 package org.lecture_faq_mittmann_fddw.Repository
 
+import org.lecture_faq_mittmann_fddw.Models.Role
 import org.lecture_faq_mittmann_fddw.Models.myUser
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
@@ -13,10 +14,11 @@ interface UserRepo: CrudRepository<myUser, UUID> {
 
     @Query(
         """ SELECT u FROM myUser u 
-                WHERE (:firstName IS NULL or :firstName = u.firstName) 
-                AND (:lastName IS NULL or :lastName = u.lastName)"""
+                WHERE (:firstName IS NULL OR :firstName = u.firstName) 
+                AND (:lastName IS NULL OR :lastName = u.lastName)
+                AND (:role IS NULL OR :role = u.role)"""
     )
-    fun getUsers(firstName: String?, lastName: String?): List<myUser>
+    fun getUsers(firstName: String?, lastName: String?, role: Role?): List<myUser>
 
     fun deleteUserById(id: UUID)
 }

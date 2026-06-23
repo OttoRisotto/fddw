@@ -1,5 +1,6 @@
 package org.lecture_faq_mittmann_fddw.Services
 
+import org.lecture_faq_mittmann_fddw.Models.Role
 import org.lecture_faq_mittmann_fddw.Models.myUser
 import org.lecture_faq_mittmann_fddw.Repository.UserRepo
 import org.springframework.stereotype.Service
@@ -15,26 +16,30 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
 
     override fun getUsers(
         firstName: String?,
-        lastName: String?
+        lastName: String?,
+        role: Role?
     ): List<myUser> {
-        return repo.getUsers(firstName, lastName)
+        return repo.getUsers(firstName, lastName, role)
     }
 
-    override fun addUser(firstName: String, lastName: String, email: String) {
-        var user = myUser()
+    override fun addUser(firstName: String, lastName: String, email: String, role: Role) {
+        val user = myUser()
         user.firstName = firstName
         user.lastName = lastName
         user.email = email
+        user.role = role
+
         repo.save( user )
     }
 
-    override fun editUser(id: UUID, firstName: String?, lastName: String?, email: String?) {
+    override fun editUser(id: UUID, firstName: String?, lastName: String?, email: String?, role: Role?) {
 
         var user = repo.getUserById(id)
 
         if (firstName != null)  { user.firstName = firstName }
         if (lastName != null)   { user.lastName = lastName }
         if (email != null)      { user.email = email }
+        if (role != null)       { user.role = role }
 
         repo.save(user)
     }

@@ -1,5 +1,6 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
+import org.lecture_faq_mittmann_fddw.Models.Role
 import org.lecture_faq_mittmann_fddw.Models.myUser
 import org.lecture_faq_mittmann_fddw.Services.UserService
 import org.springframework.http.HttpStatus
@@ -9,19 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import java.util.UUID
 
 @Controller
-class UserController(private val service: UserService) {
+class UserController(private val srv: UserService) {
 
     @GetMapping("/users/{id}")
     @ResponseBody
     fun getUser(@PathVariable id: UUID): String{
-        val user = service.getUser(id)
+        val user = srv.getUser(id)
         return user.toString()
     }
 
@@ -29,9 +29,10 @@ class UserController(private val service: UserService) {
     @ResponseBody
     fun getUsers(
         @RequestParam firstName: String?,
-        @RequestParam lastName: String?
+        @RequestParam lastName: String?,
+        @RequestParam role: Role?
     ): String{
-        val users: List<myUser> = service.getUsers(firstName, lastName)
+        val users: List<myUser> = srv.getUsers(firstName, lastName, role)
         return "Users: \n${users.joinToString(",\n")}"
     }
 
@@ -40,8 +41,9 @@ class UserController(private val service: UserService) {
     fun addUser(
         @RequestParam firstName: String,
         @RequestParam lastName: String,
-        @RequestParam email: String){
-        service.addUser(firstName, lastName, email)
+        @RequestParam email: String,
+        @RequestParam role: Role){
+        srv.addUser(firstName, lastName, email, role)
     }
 
     @PatchMapping("/users/{id}")
@@ -50,14 +52,15 @@ class UserController(private val service: UserService) {
         @PathVariable id: UUID,
         firstName: String?,
         lastName: String?,
-        email: String?
+        email: String?,
+        role: Role?
     ){
-        service.editUser(id, firstName, lastName, email)
+        srv.editUser(id, firstName, lastName, email, role)
     }
 
     @DeleteMapping("/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteUser(@PathVariable id: UUID){
-        service.deleteUser(id)
+        srv.deleteUser(id)
     }
 }
