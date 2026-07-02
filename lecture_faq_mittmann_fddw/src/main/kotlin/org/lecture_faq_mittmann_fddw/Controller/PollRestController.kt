@@ -1,0 +1,56 @@
+package org.lecture_faq_mittmann_fddw.Controller
+
+import jakarta.validation.Valid
+import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
+import org.lecture_faq_mittmann_fddw.Models.Poll
+import org.lecture_faq_mittmann_fddw.services.user.poll.PollServ
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
+
+@RestController
+@RequestMapping("/api/users/{uId}/polls")
+class PollRestController(private val srv: PollServ) {
+
+    @GetMapping("/{pId}")
+    fun getPollById(@Valid @RequestBody userDto: UserDto): Poll {
+        return srv.getPoll(userDto)
+    }
+
+    @GetMapping("/")
+    fun getPollsByUser(@PathVariable uId: UUID): List<Poll>{
+        return srv.getPollsByUser(uId)
+    }
+
+    @PostMapping("/")
+    fun addPoll(
+        @PathVariable uId: UUID,
+        @RequestParam title: String,
+        @RequestParam description: String
+    ) {
+        srv.addPoll(uId, title, description)
+    }
+
+    @PatchMapping("/{pId}")
+    fun updatePoll(
+        @PathVariable uId: UUID,
+        @PathVariable pId: UUID,
+        @RequestParam title: String?,
+        @RequestParam description: String?
+    ){
+        srv.updatePoll(uId, pId, title, description)
+    }
+
+    @DeleteMapping("/{pId}")
+    fun deletePollById(@PathVariable uId: UUID, @PathVariable pId: UUID){
+        srv.deletePollById(uId, pId)
+    }
+
+}

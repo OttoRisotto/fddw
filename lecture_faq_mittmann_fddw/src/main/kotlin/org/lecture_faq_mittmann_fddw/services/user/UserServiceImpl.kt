@@ -1,29 +1,34 @@
-package org.lecture_faq_mittmann_fddw.Services
+package org.lecture_faq_mittmann_fddw.services.user
 
 import org.lecture_faq_mittmann_fddw.Models.Role
-import org.lecture_faq_mittmann_fddw.Models.MyUser
+import org.lecture_faq_mittmann_fddw.Models.User
 import org.lecture_faq_mittmann_fddw.Repository.UserRepo
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
 @Service
 class UserServiceImpl(private val repo: UserRepo): UserService {
 
-    override fun getUser(id: UUID): MyUser{
-        return repo.getUserById(id)
+    override fun getUser(id: UUID): User {
+        return repo.getUserById(id)?:throw ResponseStatusException(
+            HttpStatus.BAD_REQUEST,
+            "User nicht gefunden"
+        )
     }
 
     override fun getUsers(
         firstName: String?,
         lastName: String?,
         role: Role?
-    ): List<MyUser> {
+    ): List<User> {
         return repo.getUsers(firstName, lastName, role)
     }
 
     override fun addUser(firstName: String, lastName: String, email: String, role: Role) {
-        val user = MyUser()
+        val user = User()
         user.firstName = firstName
         user.lastName = lastName
         user.email = email
@@ -34,7 +39,7 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
 
     override fun editUser(id: UUID, firstName: String?, lastName: String?, email: String?, role: Role?) {
 
-        var user = repo.getUserById(id)
+        val user = getUser(id)
 
         if (firstName != null)  { user.firstName = firstName }
         if (lastName != null)   { user.lastName = lastName }
