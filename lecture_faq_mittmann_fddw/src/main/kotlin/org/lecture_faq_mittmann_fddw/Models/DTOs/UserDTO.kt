@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Size
 import org.lecture_faq_mittmann_fddw.Models.Role
 
-data class UserDto(
+data class UserDTO(
 
     val firstName: String?,
     val lastName: String?,
@@ -13,5 +13,5 @@ data class UserDto(
     @Email
     var email: String?,
 
-    var role: Role?,
+    var role: Role?
 )

@@ -1,17 +1,17 @@
 package org.lecture_faq_mittmann_fddw.services.user.poll
 
 import org.lecture_faq_mittmann_fddw.Models.DTOs.PollDTO
-import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
 import org.lecture_faq_mittmann_fddw.Models.Poll
 import org.lecture_faq_mittmann_fddw.Repository.PollRepo
 import org.lecture_faq_mittmann_fddw.services.user.UserService
+import org.lecture_faq_mittmann_fddw.services.user.poll.answer.AnswerServ
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
 @Service
-class PollServImpl(val repo: PollRepo, val uServ: UserService): PollServ {
+class PollServImpl(val repo: PollRepo, val uServ: UserService, val aServ: AnswerServ): PollServ {
 
     override fun getPoll(uId:UUID, pId:UUID): Poll {
         return repo.getPoll( uId, pId ) ?: run {
@@ -46,6 +46,9 @@ class PollServImpl(val repo: PollRepo, val uServ: UserService): PollServ {
         poll.user = user
         poll.description = pollDTO.description?: throw exception
 
+        val answerDTOs = pollDTO.answers
+        poll.answers = aServ.addNewAnswers( uId, poll.id, answerDTOs )
+
         repo.save(poll)
     }
 
@@ -62,6 +65,13 @@ class PollServImpl(val repo: PollRepo, val uServ: UserService): PollServ {
 
     override fun deletePollById(uId: UUID, pId: UUID) {
         val poll = getPoll(uId, pId)
+        val answers = aServ.getPollAnswers(uId, pId)
+
+        for(answer in answers){
+            aServ.deleteAnswer(uId, pId, answer.id)
+        }
+
         repo.delete(poll)
     }
+
 }

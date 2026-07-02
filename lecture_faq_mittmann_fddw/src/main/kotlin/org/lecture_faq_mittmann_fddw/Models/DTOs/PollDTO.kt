@@ -1,8 +1,8 @@
 package org.lecture_faq_mittmann_fddw.Models.DTOs
 
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
-import org.lecture_faq_mittmann_fddw.Models.User
 
 data class PollDTO(
 
@@ -11,6 +11,10 @@ data class PollDTO(
     val title: String?,
 
     @Size(min = 3, max = 100)
-    val description: String?
+    val description: String?,
+
+    @NotNull
+    @Size(min = 2, message = "Ein Poll muss mind. 2 Antwortmöglichkeiten haben")
+    val answers: MutableList<AnswerDTO>
 
 )

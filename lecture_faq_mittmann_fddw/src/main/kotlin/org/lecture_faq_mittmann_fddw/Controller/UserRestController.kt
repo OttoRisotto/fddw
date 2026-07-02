@@ -1,7 +1,7 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
 import jakarta.validation.Valid
-import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
+import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDTO
 import org.lecture_faq_mittmann_fddw.Models.Role
 import org.lecture_faq_mittmann_fddw.Models.User
 import org.lecture_faq_mittmann_fddw.services.user.UserService
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
@@ -28,13 +27,13 @@ class UserRestController(private val srv: UserService) {
     }
 
     @GetMapping("/users")
-    fun getUsers( @Valid @RequestBody userDto: UserDto ): List<User>{
+    fun getUsers( @Valid @RequestBody userDto: UserDTO ): List<User>{
         return srv.getUsers(userDto)
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    fun addUser( userDto: UserDto ){
+    fun addUser( userDto: UserDTO ){
         srv.addUser(userDto)
     }
 

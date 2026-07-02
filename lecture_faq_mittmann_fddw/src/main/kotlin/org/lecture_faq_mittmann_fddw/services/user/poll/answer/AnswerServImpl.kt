@@ -1,6 +1,7 @@
 package org.lecture_faq_mittmann_fddw.services.user.poll.answer
 
 import org.lecture_faq_mittmann_fddw.Models.Answer
+import org.lecture_faq_mittmann_fddw.Models.DTOs.AnswerDTO
 import org.lecture_faq_mittmann_fddw.Repository.AnswerRepo
 import org.lecture_faq_mittmann_fddw.services.user.poll.PollServ
 import org.springframework.http.HttpStatus
@@ -24,18 +25,29 @@ class AnswerServImpl(val repo:AnswerRepo, val pSrv:PollServ ): AnswerServ {
         return repo.getAnswersByPollId( uId, pId )
     }
 
-    override fun addNewAnswer( uId:UUID, pId:UUID, text:String ) {
+    override fun addNewAnswer( uId:UUID, pId:UUID, answerDto:AnswerDTO ): Answer {
         val answer = Answer()
-        answer.text = text
+
+        answer.text = answerDto.text?:throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Answer - Eigenschaft Text nicht gesetzt - Answer konnte nicht erstellt werden")
         answer.poll = pSrv.getPoll(uId, pId)
 
         repo.save(answer)
+        return answer
     }
 
-    override fun updateAnswer( text:String?, count:Short?, uId:UUID, pId:UUID, aId:UUID ) {
+    override fun addNewAnswers( uId: UUID, pId: UUID, answerDTOs: List<AnswerDTO> ): MutableList<Answer> {
+        val answers: MutableList<Answer> = mutableListOf()
+        for (answerDTO in answerDTOs){
+            val answer = addNewAnswer(uId, pId, answerDTO) // fügt Answer zur DB hinzu und returned answer
+            answers.add(answer)
+        }
+        return answers
+    }
+
+    override fun updateAnswer( answerDto:AnswerDTO, uId:UUID, pId:UUID, aId:UUID ) {
         val answer = this.getAnswerById(uId, pId, aId)
-        if( text != null ) {answer.text = text}
-        if ( count != null ) {answer.count = count}
+        if ( answerDto.text  != null ) {answer.text  = answerDto.text}
+        if ( answerDto.count != null ) {answer.count = answerDto.count}
         repo.save( answer )
     }
 

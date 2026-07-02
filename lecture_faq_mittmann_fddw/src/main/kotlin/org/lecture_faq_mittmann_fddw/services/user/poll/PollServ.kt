@@ -1,7 +1,6 @@
 package org.lecture_faq_mittmann_fddw.services.user.poll
 
 import org.lecture_faq_mittmann_fddw.Models.DTOs.PollDTO
-import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
 import org.lecture_faq_mittmann_fddw.Models.Poll
 import java.util.UUID
 

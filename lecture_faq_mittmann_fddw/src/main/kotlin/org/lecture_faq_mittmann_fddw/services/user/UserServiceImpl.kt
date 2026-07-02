@@ -1,6 +1,6 @@
 package org.lecture_faq_mittmann_fddw.services.user
 
-import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
+import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDTO
 import org.lecture_faq_mittmann_fddw.Models.Role
 import org.lecture_faq_mittmann_fddw.Models.User
 import org.lecture_faq_mittmann_fddw.Repository.UserRepo
@@ -28,7 +28,7 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
         return repo.getUsers(firstName, lastName, role)
     }
 
-    override fun addUser(userDto: UserDto) {
+    override fun addUser(userDto: UserDTO) {
         val user = User()
         val exception = ResponseStatusException(HttpStatus.BAD_REQUEST, "User konnte nicht erstellt werden, es sind nicht alle Eigenschaften vorhanden")
         user.firstName = userDto.firstName?: throw exception
@@ -39,7 +39,7 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
         repo.save( user )
     }
 
-    override fun editUser(id: UUID, userDto: UserDto) {
+    override fun editUser(id: UUID, userDto: UserDTO) {
 
         val user = getUser(id)
 
