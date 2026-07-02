@@ -1,5 +1,7 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
+import jakarta.validation.Valid
+import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
 import org.lecture_faq_mittmann_fddw.Models.Role
 import org.lecture_faq_mittmann_fddw.Models.User
 import org.lecture_faq_mittmann_fddw.services.user.UserService
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -25,22 +28,14 @@ class UserRestController(private val srv: UserService) {
     }
 
     @GetMapping("/users")
-    fun getUsers(
-        @RequestParam firstName: String?,
-        @RequestParam lastName: String?,
-        @RequestParam role: Role?
-    ): List<User>{
-        return srv.getUsers(firstName, lastName, role)
+    fun getUsers( @Valid @RequestBody userDto: UserDto ): List<User>{
+        return srv.getUsers(userDto)
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    fun addUser(
-        @RequestParam firstName: String,
-        @RequestParam lastName: String,
-        @RequestParam email: String,
-        @RequestParam role: Role){
-        srv.addUser(firstName, lastName, email, role)
+    fun addUser( userDto: UserDto ){
+        srv.addUser(userDto)
     }
 
     @PatchMapping("/users/{id}")
