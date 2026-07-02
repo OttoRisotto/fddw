@@ -21,12 +21,11 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
     }
 
     override fun getUsers(
-        userDto: UserDto
+        firstName: String?,
+        lastName: String?,
+        role: Role?
     ): List<User> {
-        val fN = userDto.firstName
-        val lN = userDto.lastName
-        val role = userDto.role
-        return repo.getUsers(fN, lN, role)
+        return repo.getUsers(firstName, lastName, role)
     }
 
     override fun addUser(userDto: UserDto) {

@@ -7,7 +7,7 @@ import java.util.UUID
 
 interface UserService {
     fun getUser(id: UUID): User
-    fun getUsers(userDto: UserDto): List<User>
+    fun getUsers( firstName: String?, lastName: String?, role: Role? ): List<User>
     fun addUser(userDto: UserDto)
     fun editUser(id: UUID, userDto: UserDto)
     fun deleteUser(id: UUID)

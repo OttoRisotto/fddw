@@ -1,6 +1,7 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
 import jakarta.validation.Valid
+import org.lecture_faq_mittmann_fddw.Models.DTOs.PollDTO
 import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDto
 import org.lecture_faq_mittmann_fddw.Models.Poll
 import org.lecture_faq_mittmann_fddw.services.user.poll.PollServ
@@ -20,8 +21,8 @@ import java.util.UUID
 class PollRestController(private val srv: PollServ) {
 
     @GetMapping("/{pId}")
-    fun getPollById(@Valid @RequestBody userDto: UserDto): Poll {
-        return srv.getPoll(userDto)
+    fun getPollById(uId: UUID, pId: UUID): Poll {
+        return srv.getPoll( uId, pId )
     }
 
     @GetMapping("/")
@@ -32,20 +33,18 @@ class PollRestController(private val srv: PollServ) {
     @PostMapping("/")
     fun addPoll(
         @PathVariable uId: UUID,
-        @RequestParam title: String,
-        @RequestParam description: String
+        @Valid @RequestBody pollDTO: PollDTO
     ) {
-        srv.addPoll(uId, title, description)
+        srv.addPoll(uId, pollDTO)
     }
 
     @PatchMapping("/{pId}")
     fun updatePoll(
         @PathVariable uId: UUID,
         @PathVariable pId: UUID,
-        @RequestParam title: String?,
-        @RequestParam description: String?
+        @Valid @RequestBody pollDTO: PollDTO
     ){
-        srv.updatePoll(uId, pId, title, description)
+        srv.updatePoll(uId, pId, pollDTO)
     }
 
     @DeleteMapping("/{pId}")
