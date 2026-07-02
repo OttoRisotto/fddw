@@ -1,17 +1,17 @@
 package org.lecture_faq_mittmann_fddw.services.user
 
-import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDTO
+import org.lecture_faq_mittmann_fddw.Models.user.UserDTO
 import org.lecture_faq_mittmann_fddw.Models.Role
-import org.lecture_faq_mittmann_fddw.Models.User
+import org.lecture_faq_mittmann_fddw.Models.user.User
 import org.lecture_faq_mittmann_fddw.Repository.UserRepo
+import org.lecture_faq_mittmann_fddw.services.user.poll.PollServ
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
 @Service
-class UserServiceImpl(private val repo: UserRepo): UserService {
+class UserServiceImpl(private val repo: UserRepo, val pServ: PollServ): UserService {
 
     override fun getUser(id: UUID): User {
         return repo.getUserById(id)?:throw ResponseStatusException(
@@ -51,7 +51,11 @@ class UserServiceImpl(private val repo: UserRepo): UserService {
         repo.save(user)
     }
 
-    override fun deleteUser(@PathVariable id: UUID) {
-        repo.delete(getUser(id))
+    override fun deleteUser( uId: UUID ) {
+        val polls = pServ.getPollsByUser( uId )
+        for(poll in polls){
+            pServ.deletePollById( uId, poll.id )
+        }
+        repo.delete(getUser(uId))
     }
 }

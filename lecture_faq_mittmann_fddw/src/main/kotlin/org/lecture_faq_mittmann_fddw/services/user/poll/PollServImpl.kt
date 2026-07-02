@@ -1,7 +1,8 @@
 package org.lecture_faq_mittmann_fddw.services.user.poll
 
-import org.lecture_faq_mittmann_fddw.Models.DTOs.PollDTO
-import org.lecture_faq_mittmann_fddw.Models.Poll
+import org.lecture_faq_mittmann_fddw.Models.user.poll.createPollDTO
+import org.lecture_faq_mittmann_fddw.Models.user.poll.updatePollDTO
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Poll
 import org.lecture_faq_mittmann_fddw.Repository.PollRepo
 import org.lecture_faq_mittmann_fddw.services.user.UserService
 import org.lecture_faq_mittmann_fddw.services.user.poll.answer.AnswerServ
@@ -14,12 +15,13 @@ import java.util.UUID
 class PollServImpl(val repo: PollRepo, val uServ: UserService, val aServ: AnswerServ): PollServ {
 
     override fun getPoll(uId:UUID, pId:UUID): Poll {
-        return repo.getPoll( uId, pId ) ?: run {
+        val poll = repo.getPoll( uId, pId ) ?: run {
                 // Fehlerbehandlung
                 uServ.getUser(uId) // wirft Http-Exception, wenn user nicht existiert
                 repo.getPollById(uId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Poll ${pId} existiert nicht")
                 throw ResponseStatusException(HttpStatus.NOT_FOUND) //Poll pId gehört nicht zu User uId
         }
+        return poll
     }
 
     override fun getPollsByUser(uId: UUID):List<Poll> {
@@ -36,17 +38,16 @@ class PollServImpl(val repo: PollRepo, val uServ: UserService, val aServ: Answer
         return polls
     }
 
-    override fun addPoll(uId: UUID, pollDTO: PollDTO) {
+    override fun addPoll(uId: UUID, createPollDTO: createPollDTO) {
 
         val poll = Poll()
-        val exception = ResponseStatusException(HttpStatus.BAD_REQUEST,"Es wurden nicht alle Eigenschaften von Poll gesetzt")
 
-        poll.title = pollDTO.title?: throw exception
+        poll.title = createPollDTO.title
         val user = uServ.getUser(uId)
         poll.user = user
-        poll.description = pollDTO.description?: throw exception
+        poll.description = createPollDTO.description
 
-        val answerDTOs = pollDTO.answers
+        val answerDTOs = createPollDTO.answers //check: mindestens 2 answers
         poll.answers = aServ.addNewAnswers( uId, poll.id, answerDTOs )
 
         repo.save(poll)
@@ -55,13 +56,15 @@ class PollServImpl(val repo: PollRepo, val uServ: UserService, val aServ: Answer
     override fun updatePoll(
         uId: UUID,
         pId: UUID,
-        pollDTO: PollDTO
+        updatePollDTO:updatePollDTO
     ) {
        val poll = getPoll(uId, pId)
-        if (pollDTO.title != null)      { poll.title = pollDTO.title }
-        if (pollDTO.description != null){ poll.description = pollDTO.description }
+        if (updatePollDTO.title       != null) { poll.title       = updatePollDTO.title }
+        if (updatePollDTO.description != null) { poll.description = updatePollDTO.description }
         repo.save(poll)
     }
+
+
 
     override fun deletePollById(uId: UUID, pId: UUID) {
         val poll = getPoll(uId, pId)

@@ -1,6 +1,6 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
-import org.lecture_faq_mittmann_fddw.Models.Answer
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Answer.Answer
 import org.lecture_faq_mittmann_fddw.services.user.poll.answer.AnswerServ
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

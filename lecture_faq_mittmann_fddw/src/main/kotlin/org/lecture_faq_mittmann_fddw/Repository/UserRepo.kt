@@ -1,7 +1,7 @@
 package org.lecture_faq_mittmann_fddw.Repository
 
 import org.lecture_faq_mittmann_fddw.Models.Role
-import org.lecture_faq_mittmann_fddw.Models.User
+import org.lecture_faq_mittmann_fddw.Models.user.User
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository

@@ -1,8 +1,8 @@
 package org.lecture_faq_mittmann_fddw.services.user
 
-import org.lecture_faq_mittmann_fddw.Models.DTOs.UserDTO
+import org.lecture_faq_mittmann_fddw.Models.user.UserDTO
 import org.lecture_faq_mittmann_fddw.Models.Role
-import org.lecture_faq_mittmann_fddw.Models.User
+import org.lecture_faq_mittmann_fddw.Models.user.User
 import java.util.UUID
 
 interface UserService {
@@ -10,5 +10,5 @@ interface UserService {
     fun getUsers( firstName: String?, lastName: String?, role: Role? ): List<User>
     fun addUser(userDto: UserDTO)
     fun editUser(id: UUID, userDto: UserDTO)
-    fun deleteUser(id: UUID)
+    fun deleteUser(uId: UUID)
 }

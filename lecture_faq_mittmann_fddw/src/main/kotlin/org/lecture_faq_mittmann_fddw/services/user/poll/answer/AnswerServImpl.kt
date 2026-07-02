@@ -1,7 +1,7 @@
 package org.lecture_faq_mittmann_fddw.services.user.poll.answer
 
-import org.lecture_faq_mittmann_fddw.Models.Answer
-import org.lecture_faq_mittmann_fddw.Models.DTOs.AnswerDTO
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Answer.Answer
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Answer.AnswerDTO
 import org.lecture_faq_mittmann_fddw.Repository.AnswerRepo
 import org.lecture_faq_mittmann_fddw.services.user.poll.PollServ
 import org.springframework.http.HttpStatus
@@ -25,6 +25,7 @@ class AnswerServImpl(val repo:AnswerRepo, val pSrv:PollServ ): AnswerServ {
         return repo.getAnswersByPollId( uId, pId )
     }
 
+
     override fun addNewAnswer( uId:UUID, pId:UUID, answerDto:AnswerDTO ): Answer {
         val answer = Answer()
 
@@ -43,6 +44,7 @@ class AnswerServImpl(val repo:AnswerRepo, val pSrv:PollServ ): AnswerServ {
         }
         return answers
     }
+
 
     override fun updateAnswer( answerDto:AnswerDTO, uId:UUID, pId:UUID, aId:UUID ) {
         val answer = this.getAnswerById(uId, pId, aId)

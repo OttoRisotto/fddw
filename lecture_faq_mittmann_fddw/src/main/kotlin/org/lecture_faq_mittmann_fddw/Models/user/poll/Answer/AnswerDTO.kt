@@ -1,4 +1,4 @@
-package org.lecture_faq_mittmann_fddw.Models.DTOs
+package org.lecture_faq_mittmann_fddw.Models.user.poll.Answer
 
 import jakarta.validation.constraints.NotEmpty
 

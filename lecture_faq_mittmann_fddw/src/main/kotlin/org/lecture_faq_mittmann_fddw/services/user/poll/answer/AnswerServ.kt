@@ -1,7 +1,7 @@
 package org.lecture_faq_mittmann_fddw.services.user.poll.answer
 
-import org.lecture_faq_mittmann_fddw.Models.Answer
-import org.lecture_faq_mittmann_fddw.Models.DTOs.AnswerDTO
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Answer.Answer
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Answer.AnswerDTO
 import java.util.UUID
 
 interface AnswerServ {

@@ -1,6 +1,6 @@
 package org.lecture_faq_mittmann_fddw.Repository
 
-import org.lecture_faq_mittmann_fddw.Models.Answer
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Answer.Answer
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.UUID

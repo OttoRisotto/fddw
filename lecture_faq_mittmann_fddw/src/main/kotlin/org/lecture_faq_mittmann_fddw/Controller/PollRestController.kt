@@ -1,8 +1,9 @@
 package org.lecture_faq_mittmann_fddw.Controller
 
 import jakarta.validation.Valid
-import org.lecture_faq_mittmann_fddw.Models.DTOs.PollDTO
-import org.lecture_faq_mittmann_fddw.Models.Poll
+import org.lecture_faq_mittmann_fddw.Models.user.poll.createPollDTO
+import org.lecture_faq_mittmann_fddw.Models.user.poll.updatePollDTO
+import org.lecture_faq_mittmann_fddw.Models.user.poll.Poll
 import org.lecture_faq_mittmann_fddw.services.user.poll.PollServ
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,18 +32,18 @@ class PollRestController(private val srv: PollServ) {
     @PostMapping("/")
     fun addPoll(
         @PathVariable uId: UUID,
-        @Valid @RequestBody pollDTO: PollDTO
+        @Valid @RequestBody createPollDTO: createPollDTO
     ) {
-        srv.addPoll(uId, pollDTO)
+        srv.addPoll(uId, createPollDTO)
     }
 
     @PatchMapping("/{pId}")
     fun updatePoll(
         @PathVariable uId: UUID,
         @PathVariable pId: UUID,
-        @Valid @RequestBody pollDTO: PollDTO
+        @Valid @RequestBody updatePollDTO: updatePollDTO
     ){
-        srv.updatePoll(uId, pId, pollDTO)
+        srv.updatePoll(uId, pId, updatePollDTO)
     }
 
     @DeleteMapping("/{pId}")
